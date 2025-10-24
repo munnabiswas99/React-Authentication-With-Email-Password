@@ -9,12 +9,10 @@ const Resgister = () => {
         console.log(email, password);
     }
   return (
-    <div>
-      <h5>Register here</h5>
-      <form action="" onSubmit={handleRegister}>
+    <div className="max-w-sm mx-auto border p-10 mt-10">
+      <h5 className="font-bold text-2xl mb-2">Please Register</h5>
+      <form className="space-y-4" onSubmit={handleRegister}>
         {/* Email Feild */}
-        <div className="join">
-          <div>
             <label className="input validator join-item">
               <svg
                 className="h-[1em] opacity-50"
@@ -37,8 +35,6 @@ const Resgister = () => {
             <div className="validator-hint hidden">
               Enter valid email address
             </div>
-          </div>
-        </div>
         <br />
 
         {/* Password Feild */}
