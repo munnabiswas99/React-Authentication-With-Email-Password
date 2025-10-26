@@ -1,8 +1,10 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import React from "react";
+import React, { useState } from "react";
 import { auth } from "../../../firebase_init";
 
 const Resgister = () => {
+  const [success, setSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -10,12 +12,17 @@ const Resgister = () => {
         const password = e.target.password.value;
         console.log(email, password);
 
+        setSuccess(false);
+        setErrorMsg('');;
+
         createUserWithEmailAndPassword(auth, email, password)
         .then(result => {
           console.log(result);
+          setSuccess(true);
         })
         .catch(error => {
           console.log(error);
+          setErrorMsg(error.message);
         })
     }
   return (
@@ -85,8 +92,16 @@ const Resgister = () => {
         <br />
 
         {/* Submit Button */}
-        <input className="btn btn-primary" type="submit" value="Submit" />
+        <input className="btn btn-primary mb-4" type="submit" value="Submit" />
       </form>
+
+      {
+        success && <p className="text-green-600">User created successfully</p>
+      }
+
+      {
+        errorMsg && <p className="text-red-400">{errorMsg}</p>
+      }
     </div>
   );
 };
