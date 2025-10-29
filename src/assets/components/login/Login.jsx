@@ -4,6 +4,7 @@ import { auth } from "../../../firebase_init";
 
 const Login = () => {
     const [errorMsg, setErrorMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -11,11 +12,13 @@ const Login = () => {
         const password = e.target.password.value;
         console.log(email, password);
 
+        setSuccessMsg(false);
         setErrorMsg('');
 
         signInWithEmailAndPassword(auth, email, password)
         .then((result) => {
             console.log(result.user);
+            setSuccessMsg(true);
         })
         .catch((error) => {
             console.log(error);
@@ -41,6 +44,9 @@ const Login = () => {
             <div>
             {
                 errorMsg && <p className="text-red-600">{errorMsg}</p>
+            }
+            {
+                successMsg && <p className="text-green-600">Login successful</p>
             }
             </div>
           </div>
