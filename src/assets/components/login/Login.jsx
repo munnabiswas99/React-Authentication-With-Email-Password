@@ -1,11 +1,12 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useRef, useState } from "react";
 import { auth } from "../../../firebase_init";
 import { Link } from "react-router";
 
 const Login = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState(false);
+    const emailRef = useRef('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,11 +20,29 @@ const Login = () => {
         signInWithEmailAndPassword(auth, email, password)
         .then((result) => {
             console.log(result.user);
-            setSuccessMsg(true);
+            if(!result.user.emailVerified){
+                alert("Please verify your email!")
+            }else{
+                setSuccessMsg(true);
+            }
+            
         })
         .catch((error) => {
             console.log(error);
             setErrorMsg(error.message);
+        })
+    }
+
+    const handleForgotPass = () => {
+        const email = emailRef.current.value;
+        setErrorMsg('');
+
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+            alert("Password reset email send to your account!")
+        })
+        .catch((error) => {
+            setErrorMsg(error.message)
         })
     }
 
@@ -34,11 +53,11 @@ const Login = () => {
           <div className="card-body">
             <form onSubmit={handleSubmit} className="fieldset">
               <label className="label">Email</label>
-              <input type="email" name="email" className="input" placeholder="Email" />
+              <input type="email" name="email" ref={emailRef} className="input" placeholder="Email" />
               <label className="label">Password</label>
               <input type="password" className="input" name="password" placeholder="Password" />
               <div>
-                <a className="link link-hover">Forgot password?</a>
+                <a onClick={handleForgotPass} className="link link-hover">Forgot password?</a>
               </div>
               <button className="btn btn-neutral mt-4">Login</button>
             </form>
