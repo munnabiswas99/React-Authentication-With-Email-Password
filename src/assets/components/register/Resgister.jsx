@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../../firebase_init";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router";
 
 const Resgister = () => {
   const [success, setSuccess] = useState(false);
@@ -121,6 +122,7 @@ const Resgister = () => {
         {/* Submit Button */}
         <input className="btn btn-primary mb-4" type="submit" value="Submit" />
       </form>
+      <p>Already have an accoun? <Link to='/login' className="text-blue-400 underline">Login</Link></p>
 
       {success && <p className="text-green-600">User created successfully</p>}
 
