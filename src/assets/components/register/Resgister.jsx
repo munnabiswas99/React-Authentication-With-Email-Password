@@ -1,10 +1,12 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../../firebase_init";
+import { FaEye } from "react-icons/fa";
 
 const Resgister = () => {
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [showPassword, setShowPasword] = useState(false);
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -72,8 +74,9 @@ const Resgister = () => {
               <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
             </g>
           </svg>
-          <input
-            type="password"
+          <div className="relative">
+            <input
+            type={showPassword ? "text" : "password"}
             name="password"
             required
             placeholder="Password"
@@ -81,6 +84,8 @@ const Resgister = () => {
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
           />
+          <button onClick={()=>{setShowPasword(!showPassword)}} className="absolute left-60 top-1"> <FaEye></FaEye> </button>
+          </div>
         </label>
         <p className="validator-hint hidden">
           Must be more than 8 characters, including
